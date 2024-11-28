@@ -49,20 +49,20 @@ function LoginForm() {
 							placeholder="m@example.com"
 							required
 						/>
-						<Label className={isPending ? "" : "text-red-500"}>
-							{isPending ? "Проверка..." : message}
-						</Label>
+						{message && (
+							<Label className="text-red-500">{message}</Label>
+						)}
 					</div>
 				</CardContent>
 				<CardFooter>
-					<SubmitBtn />
+					<SubmitLoginBtn />
 				</CardFooter>
 			</Card>
 		</form>
 	);
 }
 
-function SubmitBtn() {
+function SubmitLoginBtn() {
 	const { pending } = useFormStatus();
 	return (
 		<Button className="w-full" type="submit" disabled={pending}>

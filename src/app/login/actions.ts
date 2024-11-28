@@ -28,6 +28,7 @@ export async function login(
 	const cookieStore = await cookies();
 
 	cookieStore.set("userId", user.id);
+	cookieStore.set("verification", "true");
 
 	await sendCodeByEmail(user.id, email);
 

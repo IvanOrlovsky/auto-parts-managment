@@ -10,8 +10,6 @@ export async function checkCode(userId: string, code: string) {
 		},
 	});
 
-	console.log(JSON.stringify(user));
-
 	const isCorrect =
 		JSON.stringify(user) !== "{}" && JSON.stringify(user) !== "null";
 

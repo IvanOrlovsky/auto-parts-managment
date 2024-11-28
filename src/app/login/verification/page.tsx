@@ -16,7 +16,7 @@ import { verify } from "./actions";
 import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 
-import { getCookie } from "cookies-next";
+import { getCookie, deleteCookie } from "cookies-next";
 import { getUserData } from "@/actions/read";
 import Link from "next/link";
 import { deleteCode } from "@/actions/delete";
@@ -89,7 +89,8 @@ function CodeForm() {
 								async function removeCode() {
 									await deleteCode(user.id);
 								}
-
+								deleteCookie("userId");
+								deleteCookie("verification");
 								removeCode();
 							}}
 						>

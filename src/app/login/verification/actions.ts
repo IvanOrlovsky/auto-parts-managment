@@ -2,6 +2,7 @@
 
 import { deleteCode } from "@/actions/delete";
 import { checkCode } from "@/actions/read";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function verify(
@@ -19,6 +20,10 @@ export async function verify(
 	}
 
 	await deleteCode(userId as string);
+
+	const cookieStore = await cookies();
+
+	cookieStore.delete("verification");
 
 	redirect("/");
 }

@@ -100,3 +100,17 @@ export async function getAllOrders() {
 
 	return orders;
 }
+
+export async function getAllGivenOrders() {
+	const orders = await prisma.order.findMany({
+		include: {
+			customer: true,
+			parts: true,
+		},
+		where: {
+			status: "done",
+		},
+	});
+
+	return orders;
+}

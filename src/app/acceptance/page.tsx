@@ -1,7 +1,7 @@
 "use client";
 
 import { getAcceptanceParts } from "@/actions/read";
-import { Part } from "@prisma/client";
+import { Part, Supplier } from "@prisma/client";
 import { FormEvent, useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,23 +13,27 @@ import { updatePriceForSale } from "@/actions/update";
 
 import axios from "axios";
 
-export default function AcceptancePage() {
-	const [parts, setParts] = useState<Part[]>([]);
+type SupplierType = {
+	supplier: Supplier;
+};
+type PartSupplierJoinType = Part & SupplierType;
 
-	const [selectedPart, setSelectedPart] = useState<Part | null>(null);
+export default function AcceptancePage() {
+	const [parts, setParts] = useState<PartSupplierJoinType[]>([]);
+
+	const [selectedPart, setSelectedPart] =
+		useState<PartSupplierJoinType | null>(null);
 
 	const [error, setError] = useState<string>("");
 
 	useEffect(() => {
 		const getParts = async () => {
-			const parts: Part[] = await getAcceptanceParts();
+			const parts: PartSupplierJoinType[] = await getAcceptanceParts();
 
 			setParts(parts);
 		};
 		getParts();
 	}, []);
-
-	const handleAccept = (id: string) => {};
 
 	const handleAcceptSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		const formData = new FormData(e.currentTarget);
@@ -60,9 +64,9 @@ export default function AcceptancePage() {
 			toast.error("При изменении цены продажи произошла ошибка!");
 		}
 
-		const result = await updatePriceForSale(selectedPart?.id, priceForSale);
+		await updatePriceForSale(selectedPart?.id, priceForSale);
 
-		const parts: Part[] = await getAcceptanceParts();
+		const parts: PartSupplierJoinType[] = await getAcceptanceParts();
 
 		setParts(parts);
 
@@ -91,13 +95,16 @@ export default function AcceptancePage() {
 								<th className="border px-4 py-2 text-left">
 									Стоимость закупки
 								</th>
+								<th className="border px-4 py-2 text-left">
+									Поставщик
+								</th>
 								<th className="border px-4 py-2 text-center">
 									Действие
 								</th>
 							</tr>
 						</thead>
 						<tbody>
-							{parts.map((part: Part) => (
+							{parts.map((part: PartSupplierJoinType) => (
 								<tr key={part.id} className="hover:bg-gray-50">
 									<td className="border px-4 py-2">
 										{part.id}
@@ -110,6 +117,9 @@ export default function AcceptancePage() {
 									</td>
 									<td className="border px-4 py-2">
 										{part.priceForPurchase}
+									</td>
+									<td className="border px-4 py-2">
+										{part.supplier.name}
 									</td>
 									<td className="border px-4 py-2 text-center">
 										<button

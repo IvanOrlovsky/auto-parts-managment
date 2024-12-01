@@ -38,3 +38,19 @@ export async function getAcceptanceParts() {
 
 	return parts || [];
 }
+
+export async function getAllWareHouses() {
+	const warehouses = await prisma.warehouse.findMany();
+
+	return warehouses;
+}
+
+export async function getAllPartsInWareHouse(warehouseId: string) {
+	const parts = await prisma.partsOnWarehouse.findMany({
+		where: {
+			warehouseId,
+		},
+	});
+
+	return parts;
+}

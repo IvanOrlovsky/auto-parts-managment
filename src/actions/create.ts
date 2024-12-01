@@ -16,3 +16,13 @@ export async function addVerificationCode(userId: string, code: string) {
 	});
 	return;
 }
+
+export async function addPartToWarehouse(partId: string, warehouseId: string) {
+	await prisma.partsOnWarehouse.create({
+		data: {
+			partId,
+			warehouseId,
+		},
+	});
+	return;
+}

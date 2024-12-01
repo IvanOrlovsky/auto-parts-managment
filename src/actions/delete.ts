@@ -17,3 +17,19 @@ export async function deleteCode(userId: string) {
 	}
 	return;
 }
+
+export async function deletePartInWarhouse(
+	partId: string,
+	warehouseId: string
+) {
+	await prisma.partsOnWarehouse.delete({
+		where: {
+			partId_warehouseId: {
+				partId,
+				warehouseId,
+			},
+		},
+	});
+
+	return;
+}

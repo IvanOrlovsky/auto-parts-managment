@@ -40,15 +40,47 @@ export async function getAcceptanceParts() {
 }
 
 export async function getAllWareHouses() {
-	const warehouses = await prisma.warehouse.findMany();
+	const warehouses = await prisma.warehouse.findMany({
+		include: {
+			parts: {
+				include: {
+					part: true,
+				},
+			},
+		},
+	});
 
 	return warehouses;
 }
 
-export async function getAllPartsInWareHouse(warehouseId: string) {
-	const parts = await prisma.partsOnWarehouse.findMany({
+export async function getAllPartsInWareHouse() {
+	const parts = await prisma.part.findMany({
 		where: {
-			warehouseId,
+			warehouse: {
+				some: {},
+			},
+		},
+		include: {
+			warehouse: {
+				include: {
+					warehouse: true,
+				},
+			},
+		},
+	});
+
+	return parts;
+}
+
+export async function getAllPartsOutOfWarehouse() {
+	const parts = await prisma.part.findMany({
+		where: {
+			warehouse: {
+				none: {},
+			},
+			NOT: {
+				priceForSale: null,
+			},
 		},
 	});
 

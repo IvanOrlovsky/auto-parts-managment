@@ -53,18 +53,9 @@ export default function AcceptancePage() {
 			return;
 		}
 
-		const response = await axios.post("/api/parts/accept", {
-			id: selectedPart.id,
-			priceForSale,
-		});
-
-		if (response.status === 200) {
-			toast.success(response.data.message || "Запчасть успешно принята!");
-		} else {
-			toast.error("При изменении цены продажи произошла ошибка!");
-		}
-
 		await updatePriceForSale(selectedPart?.id, priceForSale);
+
+		toast.success("Запчасть успешно принята!");
 
 		const parts: PartSupplierJoinType[] = await getAcceptanceParts();
 

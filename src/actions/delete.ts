@@ -33,3 +33,13 @@ export async function deletePartInWarhouse(
 
 	return;
 }
+
+export async function deleteOrder(orderId: string) {
+	await prisma.order.delete({
+		where: {
+			id: orderId,
+		},
+	});
+
+	return;
+}

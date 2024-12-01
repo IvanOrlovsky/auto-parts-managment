@@ -6,7 +6,6 @@ import Link from "next/link";
 
 import {
 	Inbox,
-	PackageMinus,
 	ClipboardList,
 	ClipboardCheck,
 	BarChart,
@@ -39,18 +38,7 @@ export default async function SideBar() {
 					</li>
 					<li>
 						<Link
-							href="#"
-							className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-						>
-							<PackageMinus />
-							<span className="flex-1 ms-3 whitespace-nowrap">
-								Выдача
-							</span>
-						</Link>
-					</li>
-					<li>
-						<Link
-							href="#"
+							href="/orders"
 							className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
 						>
 							<ClipboardList />

@@ -84,5 +84,19 @@ export async function getAllPartsOutOfWarehouse() {
 		},
 	});
 
-	return parts;
+	return parts.filter((part) => !part.dateOfSelling);
+}
+
+export async function getAllOrders() {
+	const orders = await prisma.order.findMany({
+		include: {
+			customer: true,
+			parts: true,
+		},
+		where: {
+			status: "ready",
+		},
+	});
+
+	return orders;
 }

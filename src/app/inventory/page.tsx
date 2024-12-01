@@ -7,6 +7,7 @@ import {
 	getAllPartsOutOfWarehouse,
 	getAllWareHouses,
 } from "@/actions/read";
+import { updatePlaceDate } from "@/actions/update";
 import { Button } from "@/components/ui/button";
 import { Part, PartsOnWarehouse, Warehouse } from "@prisma/client";
 import { Label } from "@radix-ui/react-label";
@@ -74,6 +75,8 @@ export default function InventoryPage() {
 		}
 
 		await addPartToWarehouse(partId, warehouseId);
+		await updatePlaceDate(partId);
+
 		successMessage("Запчасть успешно размещена!");
 
 		const warehouses = await getAllWareHouses();

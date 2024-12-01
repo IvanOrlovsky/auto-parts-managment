@@ -26,12 +26,17 @@ model User {
   orders   Order[]
 }
 
+enum OrderStatus {
+  ready
+  done
+}
+
 model Order {
   id          String   @id @default(uuid())
   customerId String
   customer User @relation(fields: [customerId], references: [id])
   date DateTime
-  status String
+  status OrderStatus
   parts Part[]
 }
 

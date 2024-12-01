@@ -25,6 +25,10 @@ export async function login(
 		return "Такая почта не зарегистрирована в системе!";
 	}
 
+	if (user.isCustomer) {
+		return "Вы клиент, таким нельзя в нашу систему!";
+	}
+
 	const cookieStore = await cookies();
 
 	cookieStore.set("userId", user.id);

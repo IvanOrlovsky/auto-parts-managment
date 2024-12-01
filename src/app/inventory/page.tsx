@@ -152,7 +152,7 @@ export default function InventoryPage() {
 						))}
 					</tbody>
 				</table>
-				<h2 className="text-2xl font-semibold mb-4">
+				<h2 className="text-2xl font-semibold mb-4 mt-8">
 					Запчасти в ячейках
 				</h2>
 				<table className="min-w-full border border-gray-300">

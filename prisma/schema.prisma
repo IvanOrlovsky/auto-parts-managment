@@ -21,6 +21,7 @@ model User {
   phone     String
   email     String   @unique
   address   String
+  isCustomer Boolean?
   verification Verification?
   orders   Order[]
 }

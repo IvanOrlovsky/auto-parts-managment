@@ -47,10 +47,10 @@ model Part {
   id          String   @id @default(uuid())
   name        String
   description String
-  priceForSale       Float
+  priceForSale       Float?
   priceForPurchase Float
   dateOfPlace DateTime?
-  dateOfPurchase DateTime
+  dateOfPurchase DateTime?
   dateOfSelling DateTime?
   orderId String?
   order Order? @relation(fields: [orderId], references: [id])

@@ -25,3 +25,16 @@ export async function getUserData(id: string) {
 
 	return user;
 }
+
+export async function getAcceptanceParts() {
+	const parts = await prisma.part.findMany({
+		where: {
+			priceForSale: null,
+		},
+		include: {
+			supplier: true,
+		},
+	});
+
+	return parts || [];
+}

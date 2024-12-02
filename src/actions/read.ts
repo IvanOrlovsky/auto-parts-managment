@@ -1,6 +1,14 @@
 "use server";
 
 import prisma from "@/lib/db";
+import {
+	Order,
+	Part,
+	PartsOnWarehouse,
+	Supplier,
+	User,
+	Warehouse,
+} from "@prisma/client";
 
 export async function checkCode(userId: string, code: string) {
 	const user = await prisma.verification.findFirst({
@@ -113,4 +121,29 @@ export async function getAllGivenOrders() {
 	});
 
 	return orders;
+}
+
+export async function getSellingReport(): Promise<
+	(Part & {
+		order: (Order & { customer: User }) | null;
+		supplier: Supplier;
+	})[]
+> {
+	const parts = await prisma.part.findMany({
+		where: {
+			dateOfSelling: {
+				not: null,
+			},
+		},
+		include: {
+			order: {
+				include: {
+					customer: true,
+				},
+			},
+			supplier: true,
+		},
+	});
+
+	return parts;
 }

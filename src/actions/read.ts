@@ -238,3 +238,19 @@ export async function getAllCustomers() {
 
 	return customers;
 }
+
+export async function getAllSuppliers() {
+	const suppliers = await prisma.supplier.findMany();
+
+	return suppliers;
+}
+
+export async function isSupplier(supplierId: string) {
+	const supplier = await prisma.supplier.findFirst({
+		where: {
+			id: supplierId,
+		},
+	});
+
+	return !!supplier;
+}

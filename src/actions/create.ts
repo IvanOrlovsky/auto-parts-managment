@@ -60,3 +60,21 @@ export async function createOrder(customerId: string, parts: string[]) {
 
 	return order;
 }
+
+export async function createAcceptPart(
+	name: string,
+	description: string,
+	priceForPurchase: number,
+	supplierId: string
+) {
+	const part = await prisma.part.create({
+		data: {
+			name,
+			description,
+			priceForPurchase,
+			supplierId,
+		},
+	});
+
+	return part;
+}

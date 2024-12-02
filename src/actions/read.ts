@@ -24,7 +24,7 @@ export async function checkCode(userId: string, code: string) {
 	return isCorrect;
 }
 
-export async function getUserData(id: string) {
+export async function getUserData(id: string): Promise<User | null> {
 	const user = await prisma.user.findFirst({
 		where: {
 			id,
@@ -191,4 +191,50 @@ export async function getWarehouseReport(): Promise<
 	});
 
 	return report;
+}
+
+export async function getAvailableToOrderParts() {
+	const parts = await prisma.part.findMany({
+		where: {
+			priceForSale: {
+				not: null,
+			},
+			dateOfSelling: null,
+			warehouse: {
+				some: {},
+			},
+		},
+	});
+
+	return parts;
+}
+
+export async function areAllPartsAvailableForSale(
+	partIds: string[]
+): Promise<boolean> {
+	// Получаем все части, которые находятся на складе и не проданы
+	const parts = await prisma.part.findMany({
+		where: {
+			id: { in: partIds }, // Только те части, которые указаны в partIds
+			warehouse: {
+				some: {}, // Части должны быть размещены на складе
+			},
+			dateOfSelling: null, // Части не должны быть проданы
+			priceForSale: {
+				not: null, // Части должны иметь цену продажи
+			},
+		},
+	});
+
+	return parts.length === partIds.length;
+}
+
+export async function getAllCustomers() {
+	const customers = await prisma.user.findMany({
+		where: {
+			isCustomer: true,
+		},
+	});
+
+	return customers;
 }

@@ -147,3 +147,48 @@ export async function getSellingReport(): Promise<
 
 	return parts;
 }
+
+export async function getPurchaseReport(): Promise<
+	(Part & {
+		order: (Order & { customer: User }) | null;
+		supplier: Supplier;
+	})[]
+> {
+	const parts = await prisma.part.findMany({
+		where: {
+			priceForSale: {
+				not: null,
+			},
+		},
+		include: {
+			order: {
+				include: {
+					customer: true,
+				},
+			},
+			supplier: true,
+		},
+	});
+
+	return parts;
+}
+
+export async function getWarehouseReport(): Promise<
+	({
+		warehouse: Warehouse;
+		part: { supplier: Supplier } & Part;
+	} & PartsOnWarehouse)[]
+> {
+	const report = await prisma.partsOnWarehouse.findMany({
+		include: {
+			part: {
+				include: {
+					supplier: true,
+				},
+			},
+			warehouse: true,
+		},
+	});
+
+	return report;
+}
